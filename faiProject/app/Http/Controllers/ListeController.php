@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use \App\Destinataire;
+use App\Http\Controllers\Controller;
+use App\Jobs\ProcessMail;
 use Illuminate\Http\Request;
 
 class ListeController extends Controller

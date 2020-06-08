@@ -37,7 +37,6 @@ window.addEventListener("DOMContentLoaded", () => {
           data: {emails: JSON.stringify(array)},
           success: function(res){
               if(res){
-
                 sendMailsToServer(emails.slice(700, emails.length));
               }else{
                 loader.style.display = "none";
