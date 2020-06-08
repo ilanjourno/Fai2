@@ -113,12 +113,12 @@
                     <div class="collapse" id="navbar-fais">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">
+                                <a class="nav-link" href="/fais">
                                     {{ __('View Fai') }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
+                                <a class="nav-link" href="/fais/create">
                                     {{ __('Create Fai') }}
                                 </a>
                             </li>
@@ -139,7 +139,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
+                                <a class="nav-link" href="/destinataire/create">
                                     {{ __('Create addressees') }}
                                 </a>
                             </li>

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// There is a route for logout people
 Route::get('/', function () {
     return view('welcome');
 });
@@ -23,13 +24,21 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+// There is routes for login people
 Route::group(['middleware' => 'auth'], function () {
+  // Profil routes
 	Route::resource('user', 'UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
+  // Fais & Domains routes
+  Route::resource('fais', 'FaisController');
+  Route::put('domains/{id}', ['as' => 'domains.update', 'uses' => 'FaisdomainController@update']);
+  Route::delete('domains/{id}', ['as' => 'domains.delete', 'uses' => 'FaisdomainController@destroy']);
 
+  // Addressees / Liste & Base routes
+  Route::post('liste/create', 'ListeController@storeFile');
 	Route::resource('destinataire', 'DestinataireController');
+  Route::get('base/create', ['as' => 'base.create', 'uses' => 'BaseController@create']);
+  Route::post('base/create', ['as' => 'base.store', 'uses' => 'BaseController@store']);
 });
-

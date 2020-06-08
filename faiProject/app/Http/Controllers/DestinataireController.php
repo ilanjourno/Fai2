@@ -13,7 +13,9 @@ class DestinataireController extends Controller
      */
     public function index()
     {
-        return view('destinataires.index');
+        $bases = \App\Base::all();
+        $destinataires = \App\Destinataire::join('listes', 'listes.id', '=', 'destinataires.list_id');
+        return view('destinataires.index', ["bases" => $bases, "destinataires" => $destinataires]);
     }
 
     /**
@@ -23,7 +25,8 @@ class DestinataireController extends Controller
      */
     public function create()
     {
-        //
+        $bases = \App\Base::all();
+        return view('destinataires.create', ['bases' => $bases]);
     }
 
     /**
@@ -34,7 +37,7 @@ class DestinataireController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -43,9 +46,9 @@ class DestinataireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($baseName)
     {
-        //
+
     }
 
     /**
@@ -68,17 +71,23 @@ class DestinataireController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        \App\Destinataire::find($id)->update($request->all());
+
+        return redirect('/destinataire/'.$request->get('destiName'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     *  @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+
+        \App\Destinataire::find($id)->delete();
+        return redirect('/destinataire/'.$request->get('destiname'));
     }
 }
