@@ -15,6 +15,7 @@ class ListeController extends Controller
   }
 
   public function storeFile(Request $request){
+    ProcessMail
     $emails = json_decode($_POST['emails']);
     foreach ($emails as $key => $mail) {
       $emailExist = Destinataire::where('email', $mail)->get()->toArray();
