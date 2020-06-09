@@ -2,8 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Destinataire;
-use App\Jobs\Middleware\RateLimited;
+use \App\Destinataire;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,15 +12,17 @@ use Illuminate\Queue\SerializesModels;
 class ProcessMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    public $emails;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Destinataire $destinataire)
+    public function __construct($emails)
     {
-        $this->destinataire = $destinataire;
+        
+        $this->emails = $emails;
+        
     }
 
     /**
@@ -31,17 +32,13 @@ class ProcessMail implements ShouldQueue
      */
     public function handle()
     {
-
-    }
-
-    /**
-     * Get the middleware the job should pass through.
-     *
-     * @return array
-     */
-    public function middleware()
-    {
-        return [new RateLimited];
+        foreach ($this->emails as $key => $mail) {
+            $array[] = [
+                'emails' => $mail,
+                'list_id' => 1,
+            ];
+        }
+        Destinataire::insertOrIgnore($array);
     }
 
 }

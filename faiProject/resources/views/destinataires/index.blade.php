@@ -33,8 +33,7 @@
                           </tbody>
                       </table>
                       <div class="btn-group my-3" role="group" aria-label="Basic example">
-                          <a class="btn btn-primary text-light" href="/liste">Create a list</a>
-                          <a class="btn btn-primary text-light" href="/base/create">Create a base</a>
+                          <a class="btn btn-primary text-light" href="/destinataire/create">Create addressesses</a>
                       </div>
                   </div>
               </div>

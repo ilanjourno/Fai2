@@ -37,7 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
   Route::delete('domains/{id}', ['as' => 'domains.delete', 'uses' => 'FaisdomainController@destroy']);
 
   // Addressees / Liste & Base routes
-  Route::post('liste/create', 'ListeController@storeFile');
+  Route::post('liste/create', 'ListeController@uploadEmail');
+  Route::post('liste/upload', 'ListeController@storeFile');
 	Route::resource('destinataire', 'DestinataireController');
   Route::get('base/create', ['as' => 'base.create', 'uses' => 'BaseController@create']);
   Route::post('base/create', ['as' => 'base.store', 'uses' => 'BaseController@store']);

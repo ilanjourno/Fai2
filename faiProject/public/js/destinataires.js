@@ -3,7 +3,7 @@ window.addEventListener("DOMContentLoaded", () => {
     var loader = document.getElementById('loader');
     var myButton = document.getElementById('sendButton');
     var alert = document.getElementById('alert');
-    console.log(alert)
+    
     myFile.addEventListener('change', (evt) => {
         var f = myFile.files[0];
         if(f){
@@ -21,9 +21,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function sendMailsToServer(emails, key = 0, array = []){
       loader.style.display = "block";
-      myButton.addEventListener('click', () => {
-        event.preventDefault();
-      })
       for (var i = key; i < key+30000; i++) {
         array.push(emails[i])
       }
@@ -40,7 +37,7 @@ window.addEventListener("DOMContentLoaded", () => {
           success: function(res){
               if(res){
                 console.log(res);
-                sendMailsToServer(emails.slice(30000, emails.length));
+                // sendMailsToServer(emails.slice(30000, emails.length));
               }else{
                 loader.style.display = "none";
                 alert.style.display = "block";

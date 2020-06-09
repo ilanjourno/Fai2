@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-header">Create a new list</div>
                     <div class="card-body">
-                        <form action="/destinataires" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <form action="/liste/upload" method="post" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Choose you base</label>
