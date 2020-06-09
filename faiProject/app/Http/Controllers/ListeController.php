@@ -13,21 +13,17 @@ class ListeController extends Controller
       $bases = Base::all();
       return view('uploadlist', ["bases" => $bases]);
   }
-
   public function storeFile(Request $request){
-    ProcessMail
     $emails = json_decode($_POST['emails']);
     foreach ($emails as $key => $mail) {
-      $emailExist = Destinataire::where('email', $mail)->get()->toArray();
-      if(empty($emailExist)){
-        Destinataire::create([
-          'list_id' => 1,
+        $array[] = [
           'email' => $mail,
-        ]);
-      }
+          'list_id' => 1
+        ];
     }
+    Destinataire::insertOrIgnore($array);
     end($emails);
-    if(key($emails) === 699){
+    if(key($emails) === 30000-1){
       return $emails;
     }else{
       return false;

@@ -2,6 +2,8 @@ window.addEventListener("DOMContentLoaded", () => {
     var myFile = document.getElementById('file');
     var loader = document.getElementById('loader');
     var myButton = document.getElementById('sendButton');
+    var alert = document.getElementById('alert');
+    console.log(alert)
     myFile.addEventListener('change', (evt) => {
         var f = myFile.files[0];
         if(f){
@@ -22,7 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
       myButton.addEventListener('click', () => {
         event.preventDefault();
       })
-      for (var i = key; i < key+700; i++) {
+      for (var i = key; i < key+30000; i++) {
         array.push(emails[i])
       }
       array = array.filter(function (element) {
@@ -37,9 +39,11 @@ window.addEventListener("DOMContentLoaded", () => {
           data: {emails: JSON.stringify(array)},
           success: function(res){
               if(res){
-                sendMailsToServer(emails.slice(700, emails.length));
+                console.log(res);
+                sendMailsToServer(emails.slice(30000, emails.length));
               }else{
                 loader.style.display = "none";
+                alert.style.display = "block";
               }
           }
       })

@@ -5,9 +5,9 @@
     <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
         <div class="container-fluid">
             <div class="header-body">
-              <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
+                <div class="alert alert-success" role="alert" id="alert" style='display:none'>
+                    Your file is load successfully
+                </div>
               <div class="col-md-8 m-auto">
                 <div class="card">
                     <div class="card-header">Create a new list</div>
