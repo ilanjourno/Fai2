@@ -1,7 +1,7 @@
 window.addEventListener("DOMContentLoaded", () => {
     var myFile = document.getElementById('file');
     var loader = document.getElementById('loader');
-    var myButton = document.getElementById('sendButton');
+    var myButton = $('#sendButton');
     var alert = document.getElementById('alert');
     
     myFile.addEventListener('change', (evt) => {
@@ -10,7 +10,7 @@ window.addEventListener("DOMContentLoaded", () => {
             var reader = new FileReader();
             reader.readAsText(f, "UTF-8");
             reader.onload = function (evt){
-                const emails = evt.target.result.match(/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/g);
+                const emails = evt.target.result.match(/[a-zA-Z0-9_\-\+\.]+@[a-zA-Z0-9\-]+\.([a-zA-Z]{2,4})(?:\.[a-zA-Z]{2})?/g);
                 sendMailsToServer(emails);
             }
             reader.onerror = function (evt){
@@ -19,14 +19,13 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     })
 
-    function sendMailsToServer(emails, key = 0, array = []){
+    function sendMailsToServer(emails, array = []){
+      myButton.attr("disabled", true);
+      alert.style.display = "none";
       loader.style.display = "block";
-      for (var i = key; i < key+30000; i++) {
+      for (var i = 0; i < emails.length; i++) {
         array.push(emails[i])
       }
-      array = array.filter(function (element) {
-        return element !== undefined;
-      })
       $.ajax({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -35,11 +34,9 @@ window.addEventListener("DOMContentLoaded", () => {
           url: '/liste/create',
           data: {emails: JSON.stringify(array)},
           success: function(res){
-              if(res){
-                console.log(res);
-                // sendMailsToServer(emails.slice(30000, emails.length));
-              }else{
+              if(!res){
                 loader.style.display = "none";
+                myButton.removeAttr('disabled');
                 alert.style.display = "block";
               }
           }

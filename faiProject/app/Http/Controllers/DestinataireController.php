@@ -28,7 +28,6 @@ class DestinataireController extends Controller
         $bases = \App\Base::all();
         return view('destinataires.create', ['bases' => $bases]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -37,7 +36,7 @@ class DestinataireController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
