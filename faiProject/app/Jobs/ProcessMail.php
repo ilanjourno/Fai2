@@ -34,19 +34,7 @@ class ProcessMail implements ShouldQueue
     }
 
     public function sendMailToServer(){
-        $array = [];
-        $sendNbr = 20000;
-        for ($i=0; $i < $sendNbr; $i++) {
-            if(isset($this->emails[$i])){
-                $array[] = $this->emails[$i];
-            }
-        }
-        end($array);
-        Destinataire::insertOrIgnore($array);
-        if(key($array) == $sendNbr-1){
-            $this->emails = array_slice($this->emails, $sendNbr, count($this->emails));
-            $this->sendMailToServer();
-        }
+        Destinataire::insertOrIgnore($this->emails);
     }
 
 }

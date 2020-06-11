@@ -17,48 +17,23 @@ class ListeController extends Controller
       $bases = Base::all();
       return view('uploadlist', ["bases" => $bases]);
   }
-    
 
-  public function uploadEmail(Request $request){
+  public function storeFile(Request $request){
+    $file = $request->file('file');
+    dd($file);
+  }
+
+
+  public function uploadEmail(){
     $emails = json_decode($_POST['emails']);
-    $_SESSION['emails'] = $emails;
-    return;
-  }
-
-  public function uploadInit(Request $request){
-    if($request->has('file')){
-
-      // Store file
-      $base = Base::select('id', 'name')->where('name', $request->get('base'))->get()->toArray()[0];
-
-      $this->storeFile($base, $request->file('file'));
-    
-      // Store emails into database
-      dispatch(new ProcessMail($_SESSION['emails'], Liste::max('id')))->onQueue('emails');
-
-      return redirect()->back();
-    }else{
-      return redirect()->back()->with('message', 'Error', "Error, file doesn't exist");
+    if(isset($emails)){
+      end($emails);
+      if(key($emails) == 39999){
+        dispatch(new ProcessMail(json_decode($_POST['emails']), Liste::max('id')))->onQueue('emails');
+        return true;
+      }else{
+        return false;
+      }
     }
-  }
-
-  public function storeFile($base, $file){
-
-    $config = [
-        'base_name' => $base['name'],
-        'base_id' => $base['id'],
-        'file_name' => $file->getClientOriginalName(),
-        'file_extension' => $file->getClientOriginalExtension(),
-        'file_size' => $file->getSize()
-    ];
-
-    $path = $file->storeAs('public/'.$config['base_name'], $config['file_name']);
-
-    $liste = new Liste;
-    $liste->base_id = $config['base_id'];
-    $liste->filename = $config['file_name'];  
-    $liste->extension = $config['file_extension'];
-    $liste->filesize = $config['file_size'];
-    $liste->save();
   }
 }

@@ -1,45 +1,65 @@
 window.addEventListener("DOMContentLoaded", () => {
-    var myFile = document.getElementById('file');
-    var loader = document.getElementById('loader');
+    var myFile = $('#file');
     var myButton = $('#sendButton');
-    var alert = document.getElementById('alert');
-    
-    myFile.addEventListener('change', (evt) => {
-        var f = myFile.files[0];
-        if(f){
-            var reader = new FileReader();
-            reader.readAsText(f, "UTF-8");
-            reader.onload = function (evt){
-                const emails = evt.target.result.match(/[a-zA-Z0-9_\-\+\.]+@[a-zA-Z0-9\-]+\.([a-zA-Z]{2,4})(?:\.[a-zA-Z]{2})?/g);
-                sendMailsToServer(emails);
-            }
-            reader.onerror = function (evt){
-                console.log('Error reading file');
-            }
-        }
-    })
+    var submitButton = $('submitButton');
+    var loader = $('#loader');
+    var alert = $('#alert');
+    var select = $("#exampleFormControlSelect1");
+    const barProgress = $('#progress-bar');
 
-    function sendMailsToServer(emails, array = []){
-      myButton.attr("disabled", true);
-      alert.style.display = "none";
-      loader.style.display = "block";
-      for (var i = 0; i < emails.length; i++) {
-        array.push(emails[i])
-      }
-      $.ajax({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          type: 'POST',
-          url: '/liste/create',
-          data: {emails: JSON.stringify(array)},
-          success: function(res){
-              if(!res){
-                loader.style.display = "none";
-                myButton.removeAttr('disabled');
-                alert.style.display = "block";
-              }
-          }
-      })
+    myButton.on("click", function (e) {
+        var file = myFile[0].files[0];
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = function (evt){
+            const emails = evt.target.result.match(/[a-zA-Z0-9_\-\+\.]+@[a-zA-Z0-9\-]+\.([a-zA-Z]{2,4})(?:\.[a-zA-Z]{2})?/g);
+            const fileName = file.name;
+            const fileSize = file.size;
+            const fileType = file.type;
+            const base = select.val();
+            sendMailsToServer(emails.length, emails)
+        }
+        reader.onerror = function (evt){
+            console.log('Error reading file');
+        }
+    });
+
+    const sendMailsToServer = (nbrMails, emails, progress = 40000) => {
+        myButton.attr("disabled", true);
+        alert.css({'display': 'none'});
+        loader.css({'display': 'block'});
+        var result = progress*100/nbrMails;
+        var array = [];
+        const sendNbr = 40000;
+        barProgress.css({'width': result+'%'})
+        barProgress.html(Math.round(result)+'%')
+        for (let index = 0; index < 40000; index++) {
+            array.push(emails[index]);
+        }
+        array = array.filter(function(element){
+            return element !== undefined;
+        })
+        console.log(array)
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url: '/liste/create',
+            data: {
+                emails: JSON.stringify(array),
+            },
+            success: function(res){
+                if(!res){
+                    loader.css({'display': 'none'})
+                    myButton.removeAttr('disabled');
+                    alert.css({'display': 'block'});
+                    myButton.prop("type", "submit");;
+                    submitButton.trigger('click');
+                }else{
+                    sendMailsToServer(nbrMails, emails.slice(sendNbr, emails.length), progress+40000);
+                }
+            }
+        })
     }
 })
