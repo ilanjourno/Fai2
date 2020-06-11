@@ -14,7 +14,7 @@ class DestinataireController extends Controller
     public function index()
     {
         $bases = \App\Base::all();
-        $destinataires = \App\Destinataire::join('listes', 'listes.id', '=', 'destinataires.list_id');
+        $destinataires = \App\Destinataire::join('listes', 'listes.id', '=', 'destinataires.list_id')->take(10);
         return view('destinataires.index', ["bases" => $bases, "destinataires" => $destinataires]);
     }
 
@@ -36,7 +36,7 @@ class DestinataireController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -47,7 +47,8 @@ class DestinataireController extends Controller
      */
     public function show($baseName)
     {
-
+        $destinataires = \App\Destinataire::select('destinataires.id', 'destinataires.email')->join('listes', 'listes.id', '=', 'destinataires.list_id')->join('bases', 'bases.id', '=', 'listes.base_id')->where('bases.name', $baseName)->get();
+        return view('destinataires.edit', ["baseName" => $baseName, "destinataires" => $destinataires]);
     }
 
     /**

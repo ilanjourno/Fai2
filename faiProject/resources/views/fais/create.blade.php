@@ -16,7 +16,7 @@
                       <form method="POST" action="/fais">
                           {{ csrf_field() }}
                           <div class="form-group">
-                            <label for="basename">Base name</label>
+                            <label for="basename">Fai name</label>
                             <input type="text" class="form-control" id="basename" aria-describedby="baseHelp" name='name'>
                           </div>
                           <div class="form-group">

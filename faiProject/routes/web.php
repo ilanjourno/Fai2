@@ -14,16 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 // There is a route for logout people
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 // There is routes for login people
 Route::group(['middleware' => 'auth'], function () {
   // Profil routes
@@ -38,8 +38,9 @@ Route::group(['middleware' => 'auth'], function () {
 
   // Addressees / Liste & Base routes
   Route::post('liste/create', 'ListeController@uploadEmail');
-  Route::post('liste/upload', 'ListeController@storeFile');
-	Route::resource('destinataire', 'DestinataireController');
+  Route::post('liste/upload', 'ListeController@uploadInit');
+	Route::get('destinataire', 'DestinataireController@index');
   Route::get('base/create', ['as' => 'base.create', 'uses' => 'BaseController@create']);
   Route::post('base/create', ['as' => 'base.store', 'uses' => 'BaseController@store']);
+  Route::delete('base/{basename}', ['as' => 'base.delete', 'uses' => 'BaseController@destroy']);
 });

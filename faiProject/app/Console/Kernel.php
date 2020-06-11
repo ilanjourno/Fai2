@@ -25,7 +25,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('queue:work --queue=emails')->everyMinute();
-        $schedule->command('queue:work --queue=storeFile')->everyMinute();
         // $schedule->command('inspire')->hourly();
     }
 

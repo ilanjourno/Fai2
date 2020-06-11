@@ -30,4 +30,24 @@ class BaseController extends Controller
         ]);
         return redirect() ->back()->with('success', 'Your base as been create successfully!');
     }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $base_id = \App\Base::where('name', $id)->get('id')->toArray()[0]['id'];
+
+        $list_id = \App\Liste::where('base_id', $base_id)->get('id')->toArray()[0]['id'];
+
+        \App\Base::where('name', $id)->delete();
+        
+        \App\Liste::where('base_id', $base_id)->delete();
+        
+        \App\Destinataire::where('list_id', $list_id)->delete();
+
+        return redirect('/destinataire');
+    }
 }

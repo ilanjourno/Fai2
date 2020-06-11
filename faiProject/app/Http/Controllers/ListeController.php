@@ -25,17 +25,40 @@ class ListeController extends Controller
     return;
   }
 
-  public function storeFile(Request $request){
+  public function uploadInit(Request $request){
     if($request->has('file')){
+
       // Store file
       $base = Base::select('id', 'name')->where('name', $request->get('base'))->get()->toArray()[0];
-      dispatch(new storeFileJob($base, $request->file('file')))->onQueue('storeFile');
+
+      $this->storeFile($base, $request->file('file'));
+    
       // Store emails into database
       dispatch(new ProcessMail($_SESSION['emails'], Liste::max('id')))->onQueue('emails');
+
       return redirect()->back();
     }else{
       return redirect()->back()->with('message', 'Error', "Error, file doesn't exist");
     }
+  }
 
+  public function storeFile($base, $file){
+
+    $config = [
+        'base_name' => $base['name'],
+        'base_id' => $base['id'],
+        'file_name' => $file->getClientOriginalName(),
+        'file_extension' => $file->getClientOriginalExtension(),
+        'file_size' => $file->getSize()
+    ];
+
+    $path = $file->storeAs('public/'.$config['base_name'], $config['file_name']);
+
+    $liste = new Liste;
+    $liste->base_id = $config['base_id'];
+    $liste->filename = $config['file_name'];  
+    $liste->extension = $config['file_extension'];
+    $liste->filesize = $config['file_size'];
+    $liste->save();
   }
 }
