@@ -1,12 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
-        <div class="container-fluid">
-            <div class="header-body">
-                <div class="d-flex justify-content-center align-items-center flex-center position-ref full-height">
-                    <div class="content d-flex justify-content-center aign-items-center flex-column text-white text-center">
-                        <h1 class="text-white">Here's a list of available fais</h1>
+@include('layouts.headers.fais.header', [
+        'title' => __("The Fai's"),
+        'description' => __("This is the Fai's page. You can see all available Fai's you made and his domains"),
+        'class' => 'col-lg-9'
+    ])    
+     <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <h3 class="col-12 mb-0">{{ __('Here is a list of available fais') }}</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
                         <h5 class="text-white">Maximum 3 fais are display</h5>
                         <table border='1' class="w-100">
                             <thead>
@@ -38,6 +47,5 @@
                 </div>
             </div>
         </div>
-    </div>
     @include('layouts.footers.auth')
 @endsection

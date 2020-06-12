@@ -26,14 +26,9 @@ class ListeController extends Controller
 
   public function uploadEmail(){
     $emails = json_decode($_POST['emails']);
-    if(isset($emails)){
-      end($emails);
-      if(key($emails) == 39999){
-        dispatch(new ProcessMail(json_decode($_POST['emails']), Liste::max('id')))->onQueue('emails');
-        return true;
-      }else{
-        return false;
-      }
+    if(!empty($emails)){
+      dispatch(new ProcessMail($emails, Liste::max('id')))->onQueue('emails');
     }
+    return;
   }
 }

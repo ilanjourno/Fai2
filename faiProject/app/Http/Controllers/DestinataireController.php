@@ -14,8 +14,10 @@ class DestinataireController extends Controller
     public function index()
     {
         $bases = \App\Base::all();
-        $destinataires = \App\Destinataire::all();
-        return view('destinataires.index', ["bases" => $bases, "destinataires" => $destinataires]);
+        $destinataires = \App\Destinataire::take(5);
+        return view('destinataires.index');
+        // 
+        // return view('destinataires.create', ["bases" => $bases, "destinataires" => $destinataires]);
     }
 
     /**

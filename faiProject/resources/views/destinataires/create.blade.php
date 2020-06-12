@@ -1,13 +1,15 @@
 @extends('layouts.app')
-<script type="text/javascript" src="{{asset('js')}}/destinataires.js"></script>
+<script src="{{asset('js/destinataires.js')}}"></script>
 @section('content')
-
-    <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
-        <div class="container-fluid">
-            <div class="header-body">
-              <div class="col-md-8 m-auto">
-                <div class="card">
-                    <div class="card-header">Create a new list</div>
+@include('layouts.headers.destinataires.header', [
+        'title' => __("The addressees page"),
+        'description' => __("This is the create addressees page. You can import many addressees with a file who got millions emails address"),
+        'class' => 'col-lg-11'
+    ])    
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col order-xl-1">
+                <div class="card bg-secondary shadow">
                     <div class="card-body">
                         <div class="alert alert-success" role="alert" id="alert" style='display:none'>
                             Your file is load successfully
@@ -35,9 +37,8 @@
                         </form>
                     </div>
                 </div>
-              </div>
             </div>
         </div>
-    </div>
     @include('layouts.footers.auth')
 @endsection
+  
