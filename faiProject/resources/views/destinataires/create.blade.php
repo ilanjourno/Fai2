@@ -1,5 +1,6 @@
 @extends('layouts.app')
 <script src="{{asset('js/destinataires.js')}}"></script>
+
 @section('content')
 @include('layouts.headers.destinataires.header', [
         'title' => __("The addressees page"),
@@ -41,4 +42,5 @@
         </div>
     @include('layouts.footers.auth')
 @endsection
+
   

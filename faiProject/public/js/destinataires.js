@@ -5,8 +5,7 @@ window.addEventListener("DOMContentLoaded", () => {
     var loader = $('#loader');
     var alert = $('#alert');
     var select = $("#exampleFormControlSelect1");
-    const barProgress = $('#progress-bar');
-
+    var barProgress = $('#progress-bar');
     // J'initialise un événement lorsque je click sur mon boutton 'Send'
     myButton.on("click", function (e) {
         var file = myFile[0].files[0];
@@ -61,22 +60,5 @@ window.addEventListener("DOMContentLoaded", () => {
                 }
             }
         })
-
-        const storeFile = files => {
-            var formData = new FormData($('#test')[0]);
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'POST',
-                url: '/liste/upload',
-                data: {
-                    file: JSON.stringify([...formData])
-                },
-                success: function(res){
-                    console.log(res)
-                }
-            })
-        }
     }
 })

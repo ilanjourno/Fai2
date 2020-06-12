@@ -19,7 +19,7 @@
         "laravel/ui": "^2.0",
         "laravelcollective/html": "^6.1",
         "queueworker/sansdaemon": "^1.2",
-        "yajra/laravel-datatables-oracle": "~9.0"
+        "yajra/laravel-datatables-oracle": "^9.10"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use DataTables;
+use \App\Destinataire;
+use \App\Base;
+use \App\Liste;
+use Illuminate\Support\Facades\DB;
 class DestinataireController extends Controller
 {
     /**
@@ -11,13 +15,13 @@ class DestinataireController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bases = \App\Base::all();
-        $destinataires = \App\Destinataire::take(5);
+        if($request->ajax()){
+            $data = Base::query();
+            return DataTables::of($data)->make(true);
+        }
         return view('destinataires.index');
-        // 
-        // return view('destinataires.create', ["bases" => $bases, "destinataires" => $destinataires]);
     }
 
     /**
@@ -49,10 +53,34 @@ class DestinataireController extends Controller
      */
     public function show($baseName)
     {
-        $destinataires = \App\Destinataire::select('destinataires.id', 'destinataires.email')->join('listes', 'listes.id', '=', 'destinataires.list_id')->join('bases', 'bases.id', '=', 'listes.base_id')->where('bases.name', $baseName)->get();
-        return view('destinataires.edit', ["baseName" => $baseName, "destinataires" => $destinataires]);
+        return view('destinataires.list');
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request){
+        if($request->ajax()){
+            $data = Liste::query()->join('bases', 'bases.id', '=', 'listes.base_id')->where('bases.name', $_POST['base']);
+            return DataTables::of($data)->make(true);
+        }
+        return view('destinataires.list');
+
+    }
+
+    public function showMail($baseName, $list){
+        return view('destinataires.mails');
+    }
+    public function postMail(Request $request){
+        if($request->ajax()){
+            $data = Destinataire::query()->join('listes', 'listes.id', '=', 'destinataires.list_id');
+            return DataTables::of($data)->make(true);
+        }
+        return view('destinataires.mails');
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -61,7 +89,11 @@ class DestinataireController extends Controller
      */
     public function edit($id)
     {
-        //
+        if($request->ajax()){
+            $data = Liste::join('bases', 'bases.id', '=', 'listes.base_id')->where('bases.name', $baseName);
+            return DataTables::of($data)->make(true);
+        }
+        return view('destinataires.list');
     }
 
     /**
@@ -91,5 +123,9 @@ class DestinataireController extends Controller
 
         \App\Destinataire::find($id)->delete();
         return redirect('/destinataire/'.$request->get('destiname'));
+    }
+
+    public function gotEmails(){
+        
     }
 }

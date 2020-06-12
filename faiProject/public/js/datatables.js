@@ -25874,7 +25874,8 @@ DataTable.ext.renderer.pageButton.bootstrap = function ( settings, host, idx, bu
 								'aria-label': aria[ button ],
 								'data-dt-idx': counter,
 								'tabindex': settings.iTabIndex,
-								'class': 'page-link'
+								'class': 'page-link',
+								'style': 'min-height:60px;min-width:60px;',
 							} )
 							.html( btnDisplay )
 						)
