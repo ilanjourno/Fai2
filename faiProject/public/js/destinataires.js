@@ -15,11 +15,10 @@ window.addEventListener("DOMContentLoaded", () => {
         reader.onload = function (evt){
             // Je filtre mes mails avec une Regex
             const emails = evt.target.result.match(/[a-zA-Z0-9_\-\+\.]+@[a-zA-Z0-9\-]+\.([a-zA-Z]{2,4})(?:\.[a-zA-Z]{2})?/g);
-            const fileName = file.name;
-            const fileSize = file.size;
-            const fileType = file.type;
-            const base = select.val();
-            // J'execute ma fonction en lui donnant le nombre de mails total puis les mails dans un tableau
+            // const fileName = file.name;
+            // const fileSize = file.size;
+            // const fileType = file.type;
+            // const base = select.val();
             sendMailsToServer(emails.length, emails)
         }
         reader.onerror = function (evt){
@@ -33,7 +32,7 @@ window.addEventListener("DOMContentLoaded", () => {
         loader.css({'display': 'block'});
         var result = progress*100/nbrMails;
         var array = [];
-        const sendNbr = 40000;
+        const sendNbr = 20000;
         barProgress.css({'width': result+'%'})
         for (let index = 0; index < sendNbr; index++) {
             array.push(emails[index]);
@@ -58,10 +57,26 @@ window.addEventListener("DOMContentLoaded", () => {
                     myButton.removeAttr('disabled');
                     alert.css({'display': 'block'});
                 }else{
-                    // Si il reste encore des éléments dans mon tableau je re execute ma fonction, donc un nouvelle envoie au serveur
                     sendMailsToServer(nbrMails, emails.slice(sendNbr, emails.length), progress+sendNbr);
                 }
             }
         })
+
+        const storeFile = files => {
+            var formData = new FormData($('#test')[0]);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: '/liste/upload',
+                data: {
+                    file: JSON.stringify([...formData])
+                },
+                success: function(res){
+                    console.log(res)
+                }
+            })
+        }
     }
 })

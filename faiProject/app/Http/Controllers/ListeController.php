@@ -19,8 +19,14 @@ class ListeController extends Controller
   }
 
   public function storeFile(Request $request){
-    $file = $request->file('file');
-    dd($file);
+    if(isset($_POST['file'])){
+      return json_decode($_POST['file']);
+
+    }else if(isset($_POST)){
+      return $_POST;
+    }else if(isset($_FILES)){
+      return 'FILES';
+    }
   }
 
 
