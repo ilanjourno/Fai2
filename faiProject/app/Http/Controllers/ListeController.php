@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use \App\Destinataire;
 use \App\Liste;
 use \App\Base;
+use Validator;
 use \App\Jobs\ProcessMail;
 use \App\Jobs\storeFileJob;
 use \App\Event\NewMailHasRegisterEvent;
@@ -19,13 +20,22 @@ class ListeController extends Controller
   }
 
   public function storeFile(Request $request){
-    if(isset($_POST['file'])){
-      return json_decode($_POST['file']);
-
-    }else if(isset($_POST)){
-      return $_POST;
-    }else if(isset($_FILES)){
-      return 'FILES';
+    if($request->ajax()){
+      $baseName = $request->get('base');
+      $base_id = Base::where('name', $baseName)->get('id')->toArray()[0]['id'];
+      $fileType = $_FILES['file']['type'];
+      $fileName = basename($_FILES['file']['name']);
+      $fileSize = $_FILES['file']['size'];
+      // J'enregistre le fichier dans le folder storage/app/public/{leNomDeLaBase}/{leNomDuFichier}
+      $path = $request->file('file')->storeAs('public/'.$baseName, $fileName);
+      $array = [
+          'base_id' => $base_id,
+          'filename' => $fileName,
+          'extension' =>  $fileType,
+          'filesize' => $fileSize
+      ];
+      Liste::insertOrIgnore($array);
+      return true;
     }
   }
 

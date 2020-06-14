@@ -38,13 +38,11 @@ Route::group(['middleware' => 'auth'], function () {
 
   // Addressees / Liste & Base routes
   Route::post('liste/create', 'ListeController@uploadEmail');
-  Route::post('liste/upload', 'ListeController@storeFile');
+  Route::post('liste/upload', ['as' => 'liste.upload', 'uses' => 'ListeController@storeFile']);
 
   Route::resource('destinataire', 'DestinataireController');
 
   Route::post('destinataire', ['as' => 'destinataire.list', 'uses' => 'DestinataireController@list']);
-  Route::post('destinataire/mails', ['as' => 'destinataire.mails', 'uses' => 'DestinataireController@postMail']);
-  Route::get('destinataire/{base}/{list}', ['as' => 'destinataire.showMail', 'uses' => 'DestinataireController@showMail']);
 
   Route::get('base/create', ['as' => 'base.create', 'uses' => 'BaseController@create']);
   Route::post('base/create', ['as' => 'base.store', 'uses' => 'BaseController@store']);

@@ -15,7 +15,8 @@
                             <table id="list_table" class="table table-bordered table-striped w-100">
                                 <thead>
                                 <tr>
-                                    <th>List</th>
+                                    <th>Emails</th>
+                                    <th>Filename</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -56,14 +57,12 @@
             },
             columns: [
                 {
+                    "data": 'email',
+                    "name": "email",
+                },
+                {
                     "data": 'filename',
-                    "name": "filename",
-                    "render": function(data, type, row, meta){
-                        if(type === 'display'){
-                            data = `<a href='/destinataire/${baseName}/${data}'> ${data} </a>`;
-                        }
-                        return data;
-                    }
+                    "name": "listes.filename",
                 },
                 
                

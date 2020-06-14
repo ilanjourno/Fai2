@@ -15,7 +15,7 @@
                         <div class="alert alert-success" role="alert" id="alert" style='display:none'>
                             Your file is load successfully
                         </div>
-                        <form action="/liste/upload" method="post" class="form-horizontal" enctype="multipart/form-data" id='test'>
+                        <form action="{{route('liste.upload')}}" method="post" class="form-horizontal" enctype="multipart/form-data" id='myForm'>
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Choose you base</label>
