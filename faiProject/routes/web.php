@@ -44,6 +44,10 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::post('destinataire', ['as' => 'destinataire.list', 'uses' => 'DestinataireController@list']);
 
+  Route::get('sha', ['as' => 'sha.index', 'uses' => "ShaController@index"]);
+  Route::post('sha', ['as' => 'sha.post', 'uses' => "ShaController@store"]);
+  Route::post('sha/store', ['as' => 'sha.store', 'uses' => 'ShaController@storeFile']);
+
   Route::get('base/create', ['as' => 'base.create', 'uses' => 'BaseController@create']);
   Route::post('base/create', ['as' => 'base.store', 'uses' => 'BaseController@store']);
   Route::delete('base/{basename}', ['as' => 'base.delete', 'uses' => 'BaseController@destroy']);

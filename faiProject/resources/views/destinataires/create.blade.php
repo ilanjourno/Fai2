@@ -3,6 +3,7 @@
 
 @section('content')
 @include('layouts.headers.destinataires.header', [
+        'title' => __('Les emails'),
         'description' => __("Bienvenue sur la page de création de mails. Tu peux importer un fichier valide de mails dans une base"),
         'class' => 'col-lg-11'
     ])    

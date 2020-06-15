@@ -114,6 +114,11 @@
                                     {{ __('Créer des emails') }}
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('sha.index')}}">
+                                    {{ __('Export repoussoir ') }}
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

@@ -115,7 +115,4 @@ class DestinataireController extends Controller
         return redirect('/destinataire/'.$request->get('destiname'));
     }
 
-    public function gotEmails(){
-        
-    }
 }

@@ -3,6 +3,7 @@
 
 @section('content')
 @include('layouts.headers.destinataires.header', [
+        'title' => __('Les emails'),
         'description' => __("Ceci est la page des emails. Tu peux voir tous les emails disponible dans une base"),
         'class' => 'col-lg-11'
     ])    
