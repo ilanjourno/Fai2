@@ -23,7 +23,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 // There is routes for login people
 Route::group(['middleware' => 'auth'], function () {
   // Profil routes

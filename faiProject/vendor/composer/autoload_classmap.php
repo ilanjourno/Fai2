@@ -444,6 +444,8 @@ return array(
     'Facade\\Ignition\\Views\\Concerns\\CollectsViewExceptions' => $vendorDir . '/facade/ignition/src/Views/Concerns/CollectsViewExceptions.php',
     'Facade\\Ignition\\Views\\Engines\\CompilerEngine' => $vendorDir . '/facade/ignition/src/Views/Engines/CompilerEngine.php',
     'Facade\\Ignition\\Views\\Engines\\PhpEngine' => $vendorDir . '/facade/ignition/src/Views/Engines/PhpEngine.php',
+    'FaiDomainsSeeder' => $baseDir . '/database/seeds/FaiDomainsSeeder.php',
+    'FaiSeeder' => $baseDir . '/database/seeds/FaiSeeder.php',
     'Faker\\Calculator\\Ean' => $vendorDir . '/fzaninotto/faker/src/Faker/Calculator/Ean.php',
     'Faker\\Calculator\\Iban' => $vendorDir . '/fzaninotto/faker/src/Faker/Calculator/Iban.php',
     'Faker\\Calculator\\Inn' => $vendorDir . '/fzaninotto/faker/src/Faker/Calculator/Inn.php',
