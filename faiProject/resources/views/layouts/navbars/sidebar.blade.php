@@ -24,17 +24,17 @@
                     </div>
                     <a href="{{ route('profile.edit') }}" class="dropdown-item">
                         <i class="ni ni-single-02"></i>
-                        <span>{{ __('My profile') }}</span>
+                        <span>{{ __('Mon profil') }}</span>
                     </a>
                     <a href="#" class="dropdown-item">
                         <i class="ni ni-settings-gear-65"></i>
-                        <span>{{ __('Settings') }}</span>
+                        <span>{{ __('Paramètres') }}</span>
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
                         <i class="ni ni-user-run"></i>
-                        <span>{{ __('Logout') }}</span>
+                        <span>{{ __('Deconnexion') }}</span>
                     </a>
                 </div>
             </li>
@@ -57,30 +57,19 @@
                     </div>
                 </div>
             </div>
-            <!-- Form -->
-            <form class="mt-4 mb-3 d-md-none">
-                <div class="input-group input-group-rounded input-group-merge">
-                    <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="{{ __('Search') }}" aria-label="Search">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <span class="fa fa-search"></span>
-                        </div>
-                    </div>
-                </div>
-            </form>
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
                         <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">{{ __('User') }}</span>
+                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Utilisateur') }}</span>
                     </a>
 
                     <div class="collapse show" id="navbar-examples">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('profile.edit') }}">
-                                    {{ __('User profile') }}
+                                    {{ __('Mon profil') }}
                                 </a>
                             </li>
                         </ul>
@@ -96,12 +85,12 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="/fais">
-                                    {{ __('View Fai') }}
+                                    {{ __('Regarder les Fai\'s') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/fais/create">
-                                    {{ __('Create Fai') }}
+                                    {{ __('Créer un Fai') }}
                                 </a>
                             </li>
                         </ul>
@@ -110,19 +99,19 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#navbar-addressees" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-addressees">
                         <i class="fas fa-wifi text-blue"></i>
-                        <span class="nav-link-text">{{ __("Addressees") }}</span>
+                        <span class="nav-link-text">{{ __("Emails") }}</span>
                     </a>
 
                     <div class="collapse" id="navbar-addressees">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="/destinataire">
-                                    {{ __('View addressees') }}
+                                    {{ __('Regarder les emails') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/destinataire/create">
-                                    {{ __('Create addressees') }}
+                                    {{ __('Créer des emails') }}
                                 </a>
                             </li>
                         </ul>

@@ -65,7 +65,7 @@ class DestinataireController extends Controller
     public function list(Request $request){
 
         if($request->ajax()){
-            $data = Destinataire::query()->join('listes', 'listes.id', '=', 'destinataires.list_id')->join('bases', 'bases.id', '=', 'listes.base_id')->where('bases.name', $_POST['base']);
+            $data = Destinataire::query()->join('listes', 'listes.id', '=', 'destinataires.list_id')->join('bases', 'bases.id', '=', 'listes.base_id')->where('bases.id', $_POST['id']);
             return DataTables::of($data)->make(true);
         }
         return view('destinataires.list');

@@ -3,8 +3,7 @@
 
 @section('content')
 @include('layouts.headers.destinataires.header', [
-        'title' => __("The addressees page"),
-        'description' => __("This is the addressees page. You can see all available addressees you made sort by base."),
+        'description' => __("Ceci est la page des emails. Tu peux voir tous les emails disponible dans une base"),
         'class' => 'col-lg-11'
     ])    
     <div class="container-fluid mt--7">
@@ -52,7 +51,7 @@
                     "name": "bases.name",
                     "render": function(data, type, row, meta){
                         if(type === 'display'){
-                            data = '<a href="/destinataire/' + data + '">' + data + '</a>';
+                            data = '<a href="/destinataire/' + row.id + '">' + data + '</a>';
                         }
                         return data;
                     }

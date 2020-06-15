@@ -2,8 +2,7 @@
 
 @section('content')
 @include('layouts.headers.destinataires.header', [
-        'title' => __("The addressees page"),
-        'description' => __("This is the addressees page. You can see all available addressees you made sort by base."),
+        'description' => __("Bienvenue sur la page des destinataires. Tu peux voir tous les emails enregistrer dans une base précise."),
         'class' => 'col-lg-11'
     ])    
     <div class="container-fluid mt--7">
@@ -41,7 +40,7 @@
 <script>
     $(document).ready(function(){ 
         var url = window.location.pathname.split("/");
-        var baseName = url[2];
+        var id = url[2];
         $('#list_table').DataTable({
             processing: true,
             serverSide: true,
@@ -52,7 +51,7 @@
                 url: '{{ route("destinataire.list") }}',
                 type: 'POST',
                 data: {
-                    base: baseName
+                    id: id
                 },
             },
             columns: [
