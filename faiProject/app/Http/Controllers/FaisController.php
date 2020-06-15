@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use \App\Fais,
+    \App\FaisDomains;
 
 class FaisController extends Controller
 {
@@ -14,8 +16,8 @@ class FaisController extends Controller
      */
     public function index()
     {
-        $fais = \App\Fais::all();
-        $domains = \App\FaisDomains::all();
+        $fais = Fais::all();
+        $domains = FaisDomains::all();
         return view('fais.index',  ['fais' => $fais, 'domains' => $domains]);
     }
 
@@ -37,13 +39,13 @@ class FaisController extends Controller
      */
     public function store(Request $request)
     {
-        if(!\App\Fais::where('name', $request->get('name'))->get()->toArray()){
-            \App\Fais::create([
+        if(!Fais::where('name', $request->get('name'))->get()->toArray()){
+            Fais::create([
                 'name' => $request->get('name')
             ]);
             $id = \App\Fais::lastFaisId();
             foreach (explode(', ', $request->get('domains')) as $key => $value) {
-                \App\FaisDomains::create([
+                FaisDomains::create([
                     'fais_id' => $id,
                     'domains' => $value
                 ]);
@@ -62,7 +64,7 @@ class FaisController extends Controller
      */
     public function show($faisName)
     {
-        $domains = \App\FaisDomains::select("fais_domains.domains", "fais_domains.id")->join('fais', 'fais.id', '=', 'fais_domains.fais_id')->where("fais.name", $faisName)->get();
+        $domains = FaisDomains::select("fais_domains.domains", "fais_domains.id")->join('fais', 'fais.id', '=', 'fais_domains.fais_id')->where("fais.name", $faisName)->get();
         return view('fais.edit', ['fai' => $faisName, 'domains' => $domains]);
     }
 
@@ -97,8 +99,8 @@ class FaisController extends Controller
      */
     public function destroy($faiName)
     {
-        $domain = \App\FaisDomains::join('fais', 'fais.id', '=', 'fais_domains.fais_id')->where('fais.name', $faiName);
-        $fai = \App\Fais::where('name', $faiName);
+        $domain = FaisDomains::join('fais', 'fais.id', '=', 'fais_domains.fais_id')->where('fais.name', $faiName);
+        $fai = Fais::where('name', $faiName);
         $domain->delete();
         $fai->delete();
         return redirect('/fais');

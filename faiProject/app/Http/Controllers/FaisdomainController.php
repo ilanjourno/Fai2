@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use \App\FaisDomains;
 
 class FaisdomainController extends Controller
 {
@@ -16,7 +17,7 @@ class FaisdomainController extends Controller
    */
   public function update(Request $request, $id)
   {
-      \App\FaisDomains::find($id)->update($request->all());
+      FaisDomains::find($id)->update($request->all());
       return redirect('/fais/'.$request->get('faiName'));
   }
 
@@ -29,7 +30,7 @@ class FaisdomainController extends Controller
    */
   public function destroy(Request $request, $id)
   {
-      \App\FaisDomains::find($id)->delete();
+      FaisDomains::find($id)->delete();
       return redirect('/fais/'.$request->get('faiName'));
   }
 }

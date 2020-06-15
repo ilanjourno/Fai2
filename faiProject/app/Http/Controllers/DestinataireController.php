@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DataTables;
-use \App\Destinataire;
-use \App\Base;
-use \App\Liste;
-use Illuminate\Support\Facades\DB;
+use \App\Destinataire,
+    \App\Base,
+    \App\Liste,
+    Illuminate\Support\Facades\DB;
 class DestinataireController extends Controller
 {
     /**
@@ -31,7 +31,7 @@ class DestinataireController extends Controller
      */
     public function create()
     {
-        $bases = \App\Base::all();
+        $bases = Base::all();
         return view('destinataires.create', ['bases' => $bases]);
     }
     /**
@@ -96,7 +96,7 @@ class DestinataireController extends Controller
     public function update(Request $request, $id)
     {
 
-        \App\Destinataire::find($id)->update($request->all());
+        Destinataire::find($id)->update($request->all());
 
         return redirect('/destinataire/'.$request->get('destiName'));
     }
@@ -111,7 +111,7 @@ class DestinataireController extends Controller
     public function destroy(Request $request, $id)
     {
 
-        \App\Destinataire::find($id)->delete();
+        Destinataire::find($id)->delete();
         return redirect('/destinataire/'.$request->get('destiname'));
     }
 

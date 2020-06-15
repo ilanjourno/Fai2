@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use \App\Base,
+    \App\Liste,
+    \App\Destinataire;
 
 class BaseController extends Controller
 {
@@ -25,7 +28,7 @@ class BaseController extends Controller
      */
     public function store(Request $request)
     {
-        \App\Base::create([
+        Base::create([
               'name' => $request->get('name')
         ]);
         return redirect() ->back()->with('success', 'Your base as been create successfully!');
@@ -38,15 +41,15 @@ class BaseController extends Controller
      */
     public function destroy($id)
     {
-        $base_id = \App\Base::where('name', $id)->get('id')->toArray()[0]['id'];
+        $base_id = Base::where('name', $id)->get('id')->toArray()[0]['id'];
 
-        $list_id = \App\Liste::where('base_id', $base_id)->get('id')->toArray()[0]['id'];
+        $list_id = Liste::where('base_id', $base_id)->get('id')->toArray()[0]['id'];
 
-        \App\Base::where('name', $id)->delete();
+        Base::where('name', $id)->delete();
         
-        \App\Liste::where('base_id', $base_id)->delete();
+        Liste::where('base_id', $base_id)->delete();
         
-        \App\Destinataire::where('list_id', $list_id)->delete();
+        Destinataire::where('list_id', $list_id)->delete();
 
         return redirect('/destinataire');
     }

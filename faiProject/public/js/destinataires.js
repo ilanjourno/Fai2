@@ -67,6 +67,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 emails: JSON.stringify(array),
             },
             success: function(res){
+                console.log(res)
                 if(!array.length > 0){
                     loader.css({'display': 'none'})
                     myButton.removeAttr('disabled');

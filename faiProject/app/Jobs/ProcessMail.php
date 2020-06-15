@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use \App\Destinataire;
-use \App\Liste;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,9 +14,11 @@ class ProcessMail implements ShouldQueue
     public $array;
     public $emails;
     public $id;
-    public function __construct($emails, $id)
+    public $base_id;
+    public function __construct($emails, $id, $base_id)
     {
         $this->id = $id;
+        $this->base_id = $base_id;
         $this->array = $emails;
     }
 
@@ -27,6 +28,7 @@ class ProcessMail implements ShouldQueue
             $this->emails[] = [
                 'email' => $mail,
                 'list_id' => $this->id,
+                'base_id' => $this->base_id,
             ];
         }
         ini_set('memory_limit', '-1');

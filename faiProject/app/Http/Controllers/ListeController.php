@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use \App\Destinataire;
-use \App\Liste;
-use \App\Base;
+use \App\Destinataire,
+    \App\Liste,
+    \App\Base;
 use Validator;
 use \App\Jobs\ProcessMail;
 use \App\Jobs\storeFileJob;
@@ -43,7 +43,7 @@ class ListeController extends Controller
   public function uploadEmail(){
     $emails = json_decode($_POST['emails']);
     if(!empty($emails)){
-      dispatch(new ProcessMail($emails, Liste::max('id')))->onQueue('emails');
+      dispatch(new ProcessMail($emails, Liste::max('id'), Liste::latest('id')->first()->base_id))->onQueue('emails');
     }
     return;
   }
