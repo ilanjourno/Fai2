@@ -29,7 +29,7 @@ class ProcessMail implements ShouldQueue
                 'email' => $mail,
                 'list_id' => $this->id,
                 'base_id' => $this->base_id,
-                'sha' => sha1($mail),
+                'sha256' => hash('sha256', $mail),
                 'md5' => md5($mail)
             ];
         }

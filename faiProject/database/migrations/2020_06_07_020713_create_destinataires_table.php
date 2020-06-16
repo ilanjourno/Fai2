@@ -18,7 +18,7 @@ class CreateDestinatairesTable extends Migration
             $table->integer('list_id');
             $table->integer('base_id');
             $table->string('email');
-            $table->string('sha');
+            $table->string('sha256');
             $table->string('md5');
             $table->tinyInteger('status')->default('1');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

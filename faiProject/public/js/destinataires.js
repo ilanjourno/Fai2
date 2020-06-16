@@ -44,7 +44,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         })
     }
-    const sendMailsToServer = (nbrMails, emails, progress = 40000) => {
+    const sendMailsToServer = (nbrMails, emails, progress = 10000) => {
         var result = progress*100/nbrMails;
         var array = [];
         const sendNbr = 10000;
@@ -68,7 +68,6 @@ window.addEventListener("DOMContentLoaded", () => {
                     emails: JSON.stringify(array),
                 },
                 success: function(res){
-                    console.log(res)
                     if(array.length > 0){
                         sendMailsToServer(nbrMails, emails.slice(sendNbr, emails.length), progress+sendNbr);
                     }

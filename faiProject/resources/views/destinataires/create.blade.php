@@ -31,7 +31,6 @@
                                 <input type="file" class="form-control-file" id="file" name="file" required>
                             </div>
                             <button type="button" class='btn btn-primary d-flex align-items-center justify-content-center' id='sendButton'><i class="fa fa-spinner fa-spin" id="loader" style="display:none;margin-right:8px;"></i>Envoyer</button>
-                            <button type="submit" class="d-none" id='submitButton'></button>
                             <div class="progress mt-4" style="height: 20px;">
                                 <div class="progress-bar progress-bar-striped" id='progress-bar' role="progressbar" style="width: 0%" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>

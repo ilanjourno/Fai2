@@ -48,8 +48,8 @@ class ShaController extends Controller
             $fileType = $_FILES['file']['type'];
             $fileName = basename($_FILES['file']['name']);
             $fileSize = $_FILES['file']['size'];
-            // J'enregistre le fichier dans le folder storage/app/public/sha/{leNomDuFichier}
-            $path = $request->file('file')->storeAs('public/sha', $fileName);
+            $hash = $request->get('hash');
+            $path = $request->file('file')->storeAs('public/repoussoir/'.$hash, $fileName);
             return true;
         }
     }

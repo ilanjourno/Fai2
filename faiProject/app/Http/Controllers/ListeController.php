@@ -26,8 +26,8 @@ class ListeController extends Controller
       $fileType = $_FILES['file']['type'];
       $fileName = basename($_FILES['file']['name']);
       $fileSize = $_FILES['file']['size'];
-      // J'enregistre le fichier dans le folder storage/app/public/{leNomDeLaBase}/{leNomDuFichier}
-      $path = $request->file('file')->storeAs('public/'.$baseName, $fileName);
+      // J'enregistre le fichier dans le folder storage/app/public/bases/{leNomDeLaBase}/{leNomDuFichier}
+      $path = $request->file('file')->storeAs('public/bases'.$baseName, $fileName);
       $array = [
           'base_id' => $base_id,
           'filename' => $fileName,
