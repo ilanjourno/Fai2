@@ -4,18 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use \App\Destinataire;
+use \App\Destinataire,
+    \App\Repoussoir,
+    DataTables;
 
-class ShaController extends Controller
+class RepoussoirController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('destinataires.sha.index');
+        if($request->ajax()){
+            $data = Repoussoir::query();
+            return DataTables::of($data)->make(true);
+        }
+        return view('destinataires.repoussoir.index');   
     }
 
     /**
@@ -25,7 +31,7 @@ class ShaController extends Controller
      */
     public function create()
     {
-        //
+        return view('destinataires.repoussoir.create');
     }
 
     /**
@@ -39,7 +45,8 @@ class ShaController extends Controller
         if($request->ajax()){
             $elements = json_decode($request->get('elements'));
             $hash = $request->get('hash');
-            return Destinataire::whereIn($hash, $elements)->pluck('email');
+            $toImport = $request->get('toImport');
+            return Destinataire::whereIn($hash, $elements)->pluck($toImport);
         }
     }
 
@@ -50,6 +57,13 @@ class ShaController extends Controller
             $fileSize = $_FILES['file']['size'];
             $hash = $request->get('hash');
             $path = $request->file('file')->storeAs('public/repoussoir/'.$hash, $fileName);
+            $array = [
+                'filename' => $fileName,
+                'extension' =>  $fileType,
+                'filesize' => $fileSize,
+                'hash' => $hash,
+            ];
+            Repoussoir::insertOrIgnore($array);
             return true;
         }
     }

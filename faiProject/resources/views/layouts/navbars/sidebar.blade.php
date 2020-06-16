@@ -115,8 +115,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('sha.index')}}">
-                                    {{ __('Export repoussoir ') }}
+                                <a class="nav-link" href="{{route('repoussoir.index')}}">
+                                    {{ __('Liste des exports repoussoir') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('repoussoir.create')}}">
+                                    {{ __('Export repoussoir') }}
                                 </a>
                             </li>
                         </ul>

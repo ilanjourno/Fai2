@@ -19,7 +19,11 @@
                                 <label for="file">Choisir son fichier</label>
                                 <input type="file" class="form-control-file" id="file" name="file" required>
                             </div>
-                            <button type="button" class='btn btn-primary d-flex align-items-center justify-content-center' id='sendButton'><i class="fa fa-spinner fa-spin" id="loader" style="display:none;margin-right:8px;"></i>Export</button>
+                            <div class="form-group d-flex">
+                                <i class="fa fa-spinner fa-spin" id='loader' style="display:none;margin-right:8px;"></i>
+                                <button type="button" class='btn btn-primary align-items-center justify-content-center' id='hashButton' style='display:none'></button>
+                                <button type="button" class='btn btn-primary d-flex align-items-center justify-content-center' id='emailsButton'></i>Emails</button>
+                            </div>
                             <div class="progress mt-4" style="height: 20px;">
                                 <div class="progress-bar progress-bar-striped" id='progress-bar' role="progressbar" style="width: 0%" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
@@ -33,6 +37,7 @@
 
 @endsection
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
 <script src="{{asset('js/sha.js')}}"></script>
 @endsection
