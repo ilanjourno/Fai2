@@ -1,7 +1,14 @@
 @extends('layouts.app')
 @section('js')
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+  <link rel="stylesheet" type="text/css" href="{{asset('semantic/semantic.min.css')}}">
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="{{asset('semantic/semantic.min.js')}}"></script>
+  <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+  <style media="screen">
+    .selection{
+      margin: 10px 0;
+    }
+  </style>
 
   <!-- Latest compiled and minified JavaScript -->
   @endsection
@@ -23,48 +30,135 @@
                     </div>
                   @endif
                   <div class="card-body">
-                    <form action="{{route('base.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <form action="{{route('base.export')}}" method="post" id="sendExport" class="form-horizontal" enctype="multipart/form-data">
                       {{ csrf_field() }}
                       <div class="form-group">
                           <label for="exampleFormControlSelect1">Base à exporter</label>
-                          <select class="form-control" id="exampleFormControlSelect1" name="base" required>
-                              @foreach ($bases as $base)
-                                  <option>{{$base->name}}</option>
-                              @endforeach
-                          </select>
+
+                            <select class="ui fluid dropdown" id="exampleFormControlSelect1" name="base" required>
+                                @foreach ($bases as $base)
+                                    <option value="{{$base->id}}">{{$base->name}}</option>
+                                @endforeach
+                            </select>
+
                       </div>
-                      <p>Exclure une base de l'exportaition</p>
+                      <div class="custom-control custom-checkbox" style="margin:5px 0;">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" name="banBase">
+                        <label class="custom-control-label" for="customCheck1">Exclure une base de l'exportaition</label>
+                      </div>
 
 
 
-                      <div class="row">
-                        <div class="col-lg-6 mx-auto">
-                            <label class="text-white mb-3 lead">Where do you live?</label>
-                            <!-- Multiselect dropdown -->
-                            <select multiple data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="selectpicker w-100">
-                                <option>United Kingdom</option>
-                                <option>United States</option>
-                                <option>France</option>
-                                <option>Germany</option>
-                                <option>Italy</option>
-                            </select><!-- End -->
-                        </div>
-                    </div>
-                      <p>Exclure un FAI de l'exportaition</p>
-                      <button type="button" class="btn btn-success"><i style="font-size: 25px" class="fas fa-plus-square"></i></button>
-                      <button type="submit" class="btn btn-primary"><i class="fas fa-download"></i>&nbsp;&nbsp;&nbsp;Exporter</button>
+                      <div class="baseselect">
+
+                        <select name="skills" multiple="" id="select1" name="blacklistbase" class="ui fluid dropdown">
+                          @foreach ($bases as $base)
+                              <option value="{{$base->id}}">{{$base->name}}</option>
+                          @endforeach
+                        </select>
+
+                      </div>
+
+                      <div class="custom-control custom-checkbox" style="margin:5px 0;">
+                        <input type="checkbox" class="custom-control-input" id="customCheck2"  name="banFAI">
+                        <label class="custom-control-label" for="customCheck2">Exclure un FAI de l'exportaition</label>
+                      </div>
+
+                      <div class="faiselect">
+                        <select name="skills" multiple="" id="select2" name="blacklistfai" class="ui fluid dropdown">
+                          @foreach ($fais as $fais)
+                              <option value="{{$fais->id}}">{{$fais->name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+
+                      <button type="submit" style="margin-top:10px;" class="btn btn-primary"><i class="fas fa-download"></i>&nbsp;&nbsp;&nbsp;Exporter</button>
                     </form>
                   </div>
                 </div>
             </div>
         </div>
+        <script type="text/javascript">
+          $('#select1').dropdown();
+          $('#select2').dropdown();
+          $('#exampleFormControlSelect1').dropdown();
+          $('.baseselect').fadeOut();
+          $('.faiselect').fadeOut();
+          $('#customCheck1').click(function() {
+            if (document.querySelector('#customCheck1').checked){
+              $('.baseselect').fadeIn("slow")
+            } else {
+              $('.baseselect').fadeOut("slow");
+            }
+          })
+          $('#customCheck2').click(function() {
+            if (document.querySelector('#customCheck2').checked){
+              $('.faiselect').fadeIn("slow")
+            } else {
+              $('.faiselect').fadeOut("slow");
+            }
+          })
+          function getSelectValues(select) {
+            var result = [];
+            var options = select && select.options;
+            var opt;
+
+            for (var i=0, iLen=options.length; i<iLen; i++) {
+              opt = options[i];
+
+              if (opt.selected) {
+                result.push(opt.value || opt.text);
+              }
+            }
+            return result;
+          }
+          document.querySelector('#sendExport').addEventListener('submit', (ev) => {
+            ev.preventDefault();
+            console.log('send');
+            const data = {
+              baseName: document.querySelector('#exampleFormControlSelect1').value,
+              baseBlacklistEnabled: document.querySelector('#customCheck1').checked,
+              baseBlacklist: getSelectValues(document.querySelector('#select1')),
+              FaiBlacklistEnabled: document.querySelector('#customCheck2').checked,
+              FaiBlacklist: getSelectValues(document.querySelector('#select2')),
+            };
+            fetch('{{route("base.export")}}', {
+              method: 'POST',
+              headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+              body: JSON.stringify(data),
+            })
+            .then( (res) =>  {
+                res.text()
+                .then( (json) =>  {
+                  console.log(JSON.parse(json));
+                    var data = JSON.parse(json)
+                    var content = "";
+                    switch (data[0]) {
+                      case 'direct':
+                        content = JSON.stringify(data[1]).replace(/"|\[|\]/g, '').replace(/,/g, '\n')
+                        break;
+                      case "banBase":
+                        for (var i = 0; i < data[2].length; i++) {
+                          if (data[1].includes(data[2][i])){
+                            const index = array.indexOf(data[2][i]);
+                            if (index > -1) {
+                              data[1].splice(index, 1);
+                            }
+                          }
+                        }
+                        content = JSON.stringify(data[1]).replace(/"|\[|\]/g, '').replace(/,/g, '\n')
+                        break;
+                      default:
+
+                    }
+                    console.log(data[1]);
+                    var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+                    saveAs(blob, 'file.txt');
+                })
+            });
+          })
+        </script>
     @include('layouts.footers.auth')
 @endsection
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-
-</script>
-<script src="{{asset('js/export.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>

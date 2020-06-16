@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use \App\Destinataire,
+    \App\Base;
 
 class BaseController extends Controller
 {
@@ -53,6 +55,37 @@ class BaseController extends Controller
     public function export()
     {
         $bases = \App\Base::all();
-        return view('destinataires/bases.export', ['bases' => $bases]);
+        $fais = \App\Fais::all();
+        return view('destinataires/bases.export', ['bases' => $bases, 'fais' => $fais]);
+    }
+
+    public function sendExport(Request $request){
+        $data = json_decode($request->getContent(), true);
+        return count($data["baseBlacklist"]);
+
+        if($data["baseName"]){
+          // echo "<pre>";
+          // echo var_dump($request->get("base"));
+          // echo "</pre>";
+          // exit;
+          if ($data["baseBlacklistEnabled"]) {
+            $banEmail = [];
+            foreach (json_decode($data["baseBlacklist"]) as $key => $value) {
+              return count($data["baseBlacklist"]);
+              $banList = Destinataire::where('list_id', $value)->pluck('email');
+              $banEmail = array_merge($banEmail, $banList);
+            }
+            $result = Destinataire::where('list_id', $data["baseName"])->pluck('email');
+            $result = ['banBase', $result, $banEmail];
+          }
+          if ($request->get("banFAI")) {
+
+          } else {
+            $result = Destinataire::where('list_id', $data["baseName"])->pluck('email');
+            $result = ['direct', $result];
+            return json_encode($result);
+          }
+        }
+        return redirect() ->back()->with('success', 'Your base as been create successfully!');
     }
 }
