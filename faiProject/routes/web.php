@@ -46,5 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('base/create', ['as' => 'base.create', 'uses' => 'BaseController@create']);
   Route::post('base/create', ['as' => 'base.store', 'uses' => 'BaseController@store']);
-  Route::delete('base/{basename}', ['as' => 'base.delete', 'uses' => 'BaseController@destroy']);
+	Route::delete('base/{basename}', ['as' => 'base.delete', 'uses' => 'BaseController@destroy']);
+
+  Route::get('base/export', 'BaseController@export')->name('export');
 });

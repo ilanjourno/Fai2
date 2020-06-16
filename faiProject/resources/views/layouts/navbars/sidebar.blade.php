@@ -128,6 +128,12 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('export') }}">
+                      <i class="fas fa-file-export"></i>
+                      <span class="nav-link-text">Exportation de base</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

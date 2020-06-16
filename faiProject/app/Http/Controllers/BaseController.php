@@ -43,11 +43,16 @@ class BaseController extends Controller
         $list_id = \App\Liste::where('base_id', $base_id)->get('id')->toArray()[0]['id'];
 
         \App\Base::where('name', $id)->delete();
-        
+
         \App\Liste::where('base_id', $base_id)->delete();
-        
+
         \App\Destinataire::where('list_id', $list_id)->delete();
 
         return redirect('/destinataire');
+    }
+    public function export()
+    {
+        $bases = \App\Base::all();
+        return view('destinataires/bases.export', ['bases' => $bases]);
     }
 }
