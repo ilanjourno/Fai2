@@ -49,6 +49,13 @@ $(document).ready(function() {
     });    
 
     const storeFile = (file, elements, hash, toImport) => {
+        hashButton.removeAttr("disabled");
+        emailsButton.removeAttr("disabled");        
+        alert.css({'display': 'none'});
+        barProgress.css({'width': '0px'});
+        loader.each(function(k, v){
+            v.style.display = 'none';
+        });
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -61,19 +68,18 @@ $(document).ready(function() {
             dataType: 'json',
             contentType: false,
             processData: false,
-            success: function(res){
-                // Une fois finie, j'execute la fonction qui envoie les mails au serveur
-                buttons.on('click', function() {
-                    // hashButton.attr("disabled", true);
-                    // emailsButton.attr("disabled", true);
-                    // alert.css({'display': 'none'});
-                    // loader.css({'display': 'block'});
-                    if($(this).html() == toImport){
-                        sendHashToServer(elements.length, elements, hash, toImport);
-                    }else{
-                        sendHashToServer(elements.length, elements, hash, 'email');
-                    }
-                })
+            success: (res) => {
+                
+                hashButton.one('click', function(event){
+                    sendHashToServer(elements.length, elements, hash, toImport);
+                    event.stopImmediatePropagation();
+                });
+                
+                emailsButton.one('click', function(event){
+                    sendHashToServer(elements.length, elements, hash, 'email');
+                    event.stopImmediatePropagation();
+                });
+                
             }
         })
         
@@ -89,7 +95,7 @@ $(document).ready(function() {
             return element !== undefined;
         })
         if(array.length > 0){
-            $.ajax({
+            $.ajax({    
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
