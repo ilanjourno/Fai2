@@ -140,20 +140,12 @@
                         content = JSON.stringify(data[1]).replace(/"|\[|\]/g, '').replace(/,/g, '\n')
                         break;
                       case "banBase":
-                        for (var i = 0; i < data[2].length; i++) {
-                          if (data[1].includes(data[2][i])){
-                            const index = array.indexOf(data[2][i]);
-                            if (index > -1) {
-                              data[1].splice(index, 1);
-                            }
-                          }
-                        }
-                        content = JSON.stringify(data[1]).replace(/"|\[|\]/g, '').replace(/,/g, '\n')
+
                         break;
                       default:
 
                     }
-                    console.log(data[1]);
+                    console.log(content);
                     var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
                     saveAs(blob, 'file.txt');
                 })

@@ -61,7 +61,6 @@ class BaseController extends Controller
 
     public function sendExport(Request $request){
         $data = json_decode($request->getContent(), true);
-        return count($data["baseBlacklist"]);
 
         if($data["baseName"]){
           // echo "<pre>";
@@ -70,13 +69,10 @@ class BaseController extends Controller
           // exit;
           if ($data["baseBlacklistEnabled"]) {
             $banEmail = [];
-            foreach (json_decode($data["baseBlacklist"]) as $key => $value) {
-              return count($data["baseBlacklist"]);
-              $banList = Destinataire::where('list_id', $value)->pluck('email');
-              $banEmail = array_merge($banEmail, $banList);
-            }
-            $result = Destinataire::where('list_id', $data["baseName"])->pluck('email');
-            $result = ['banBase', $result, $banEmail];
+            return true;
+            $result = Destinataire::where('list_id', $data["baseName"])->whereNotIn('email', Destinataire::where('list_id', 2)->pluck('email')->toArray())->pluck('email');;
+            $result = ['banBase', $result];
+            return json_encode($result);
           }
           if ($request->get("banFAI")) {
 
