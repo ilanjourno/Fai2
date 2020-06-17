@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
-
 @section('content')
 @include('layouts.headers.destinataires.header', [
-        'title' => __('Les emails'),
-        'description' => __("Ceci est la page des emails. Tu peux voir tous les emails disponible dans une base"),
+        'title' => __('Liste des exports repoussoir'),
+        'description' => __("Bienvenue sur la page des destinataires. Tu peux voir tous les emails enregistrer dans une base précise."),
         'class' => 'col-lg-11'
     ])    
     <div class="container-fluid mt--7">
@@ -13,16 +12,17 @@
                 <div class="card bg-secondary shadow">
                     <div class="card-body">
                         <div class="table-responsive overflow-hidden">
-                            <table id="user_table" class="table table-bordered table-striped w-100">
+                            <table id="list_table" class="table table-bordered table-striped w-100">
                                 <thead>
                                 <tr>
-                                    <th>Base</th>
+                                    <th>Filename</th>
+                                    <th>Hash</th>
                                 </tr>
                                 </thead>
                             </table>
                         </div>
                         <div class="btn-group my-3" role="group">
-                            <a class="btn btn-primary text-light" href="/destinataire/create">Create an addressee</a>
+                            <a class="btn btn-primary text-white" href="/repoussoir/create">Exporter un repoussoir</a>
                         </div>
                     </div>
                 </div>
@@ -40,25 +40,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
 <script>
     $(document).ready(function(){ 
-        $('#user_table').DataTable({
+        $('#list_table').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('destinataire.index') }}",
+                url: "{{ route('repoussoir.index') }}",
             },
             columns: [
                 {
-                    "data": 'name',
-                    "name": "bases.name",
-                    "render": function(data, type, row, meta){
-                        if(type === 'display'){
-                            data = '<a href="/destinataire/' + row.id + '">' + data + '</a>';
-                        }
-                        return data;
-                    }
+                    "data": 'filename',
+                    "name": "filename",
                 },
-                
-               
+                {
+                    "data": 'hash',
+                    "name": "hash",
+                },
             ]
         });
     });

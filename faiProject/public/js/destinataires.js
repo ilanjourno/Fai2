@@ -44,10 +44,10 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         })
     }
-    const sendMailsToServer = (nbrMails, emails, progress = 40000) => {
+    const sendMailsToServer = (nbrMails, emails, progress = 10000) => {
         var result = progress*100/nbrMails;
         var array = [];
-        const sendNbr = 20000;
+        const sendNbr = 10000;
         barProgress.css({'width': result+'%'})
         for (let index = 0; index < sendNbr; index++) {
             array.push(emails[index]);
@@ -57,24 +57,27 @@ window.addEventListener("DOMContentLoaded", () => {
             return element !== undefined;
         })
         // Puis j'envoie mes mails à mon serveur
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'POST',
-            url: '/liste/create',
-            data: {
-                emails: JSON.stringify(array),
-            },
-            success: function(res){
-                if(!array.length > 0){
-                    loader.css({'display': 'none'})
-                    myButton.removeAttr('disabled');
-                    alert.css({'display': 'block'});
-                }else{
-                    sendMailsToServer(nbrMails, emails.slice(sendNbr, emails.length), progress+sendNbr);
+        if(array.length > 0){
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: '/liste/create',
+                data: {
+                    emails: JSON.stringify(array),
+                },
+                success: function(res){
+                    if(array.length > 0){
+                        sendMailsToServer(nbrMails, emails.slice(sendNbr, emails.length), progress+sendNbr);
+                    }
                 }
-            }
-        })
+            })
+        }else{
+            loader.css({'display': 'none'})
+            myButton.removeAttr('disabled');
+            alert.css({'display': 'block'});
+        }
+        
     }
 })
